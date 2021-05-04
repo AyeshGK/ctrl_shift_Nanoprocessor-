@@ -1,0 +1,26 @@
+Assembly program was written to calculate the total of all integers between 1 and 3 (inclusive). 
+Sum always stored in Register 7.
+Loop is working until from 3 down to 1 and in each iteration current number was decremented and added to the sum. 
+ 
+If R0 is zero jump keep not going to 3 instruction again
+
+
+
+(0) MOVI R1, 3		; R1 <- 3                                                       
+(1) MOVI R2, 1		; R2 <- 1                                                       
+(2) NEG R2          ; R2 <- -R2 [-1]                                                
+(3) ADD R7, R1		; R7 <- R7 + R1                                                 
+(4) ADD R1, R2		; R1 <- R1 + R2                                                 
+(5) JZR R1,7		; If R1 = 0 jump to line 7                                      
+(6) JZR R0,3		; If R0 = 0 (this condition is true by default)jump to line 3   
+(7) JZR R0,7		; if R0 =0 jump to line 7                                        
+
+Instructions in machine code
+0)	100010000011
+1)	100100000001
+2)	010100000000
+3)	001110010000
+4)	000010100000
+5)	110010000111
+6)	110000000011
+7)	110000000111  
