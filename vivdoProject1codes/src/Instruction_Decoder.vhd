@@ -26,51 +26,43 @@ entity Instruction_Decoder is
 end Instruction_Decoder;
 
 architecture Behavioral of Instruction_Decoder is
-
 component Decoder_2_4
-    port(
-        A:in std_logic_vector(1 downto 0);
-        En:in std_logic ;
-        B:out std_logic_vector(3 downto 0)
+   Port ( 
+        Ctrl : in STD_LOGIC_VECTOR (1 downto 0);
+        EN : in std_logic;                
+        Sel : out STD_LOGIC_VECTOR (3 downto 0)
     );
 end component;
   
-
 signal ADD,NEG,MOV,JZR :std_logic;
-
 begin
     --decode opcode into four instructions
     OPCODE_Decoder:Decoder_2_4
-        port map(
-            A=>INSTUC(11 downto 10),
-            EN=>'1',
-            B(0)=>ADD,
-            B(1)=>NEG,
-            B(2)=>MOV,
-            B(3)=>JZR
+        Port map ( 
+            Ctrl =>INSTUC(11 downto 10),
+            EN   =>'1',                
+            Sel(0)=>ADD,
+            Sel(1)=>NEG,
+            Sel(2)=>MOV,
+            Sel(3)=>JZR
         );
 
-    --select add or sub 
-    CTRL <= NEG;
+    CTRL <= NEG; --select add or sub 
 
     --Select the load comes form instruction decoder or add sub unit
     LOAD_SEL <= MOV;
 
-    --1 0 R R R 0 0 0 [d d d d] 
-    IM_VAL <= INSTUC(3 downto 0);
+    IM_VAL <= INSTUC(3 downto 0);--1 0 R R R 0 0 0 [d d d d]
 
-    --Reg enable  1 0 [R R R] 0 0 0 d d d d
-    REG_EN  <=INSTUC(9 downto 7);
+    REG_EN  <=INSTUC(9 downto 7);--Reg enable  1 0 [R R R] 0 0 0 d d d d
 
     --commad for the  muxA and muxB to register selection
     REG_SEL_A <=INSTUC(9 downto 7);
-    REG_SEL_A <=INSTUC(6 downto 7);
+    REG_SEL_B <=INSTUC(6 downto 4);
 
     --Register check for jump-----------------------------
     J_FLAG <= JZR and J_CHK; --check and set flag true
 
-    --set jump address --
-    J_ADDR<=INSTUC(2 downto 0);
+    J_ADDR<=INSTUC(2 downto 0);--set jump address --
     
-
 end Behavioral;
