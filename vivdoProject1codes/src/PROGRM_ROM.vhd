@@ -10,7 +10,7 @@ end PROGRM_ROM;
 
 architecture Behavioral of PROGRM_ROM is
 
---                  heigth of rom(8)                width of rom(11) (instruction width)
+--                  heigth of rom(8)                width of rom(12) (instruction width)
 type rom_type is array (0 to 7) of std_logic_vector(11 downto 0);
     signal PR_ROM:rom_type:=(
             "100010000011", -- MOVI R1, 3
